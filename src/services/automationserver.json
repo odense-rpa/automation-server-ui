@@ -1,0 +1,1365 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Automation server", "description": "Automation server", "version": "1.0.0" },
+  "paths": {
+    "/api/workqueues": {
+      "get": {
+        "tags": ["Workqueues"],
+        "summary": "Get Workqueues",
+        "operationId": "get_workqueues_api_workqueues_get",
+        "parameters": [
+          {
+            "name": "include_deleted",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "boolean", "default": false, "title": "Include Deleted" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Workqueue" },
+                  "title": "Response Get Workqueues Api Workqueues Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Workqueues"],
+        "summary": "Create Workqueue",
+        "operationId": "create_workqueue_api_workqueues_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Workqueue" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Workqueue" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workqueues/{workqueue_id}": {
+      "get": {
+        "tags": ["Workqueues"],
+        "summary": "Get Workqueue",
+        "operationId": "get_workqueue_api_workqueues__workqueue_id__get",
+        "parameters": [
+          {
+            "name": "workqueue_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Workqueue Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Workqueue" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Workqueues"],
+        "summary": "Update Workqueue",
+        "operationId": "update_workqueue_api_workqueues__workqueue_id__put",
+        "parameters": [
+          {
+            "name": "workqueue_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Workqueue Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/WorkqueueUpdate" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Workqueue" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Workqueues"],
+        "summary": "Delete Workqueue",
+        "operationId": "delete_workqueue_api_workqueues__workqueue_id__delete",
+        "parameters": [
+          {
+            "name": "workqueue_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Workqueue Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Delete Workqueue Api Workqueues  Workqueue Id  Delete"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workqueues/{queue_id}/add": {
+      "post": {
+        "tags": ["Workqueues"],
+        "summary": "Adds Workitem",
+        "operationId": "adds_workitem_api_workqueues__queue_id__add_post",
+        "parameters": [
+          {
+            "name": "queue_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Queue Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/WorkItemCreate" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/WorkItem" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workqueues/{queue_id}/next_item": {
+      "get": {
+        "tags": ["Workqueues"],
+        "summary": "Gets Next Workitem",
+        "operationId": "gets_next_workitem_api_workqueues__queue_id__next_item_get",
+        "parameters": [
+          {
+            "name": "queue_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Queue Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/WorkItem" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workitems/{item_id}": {
+      "get": {
+        "tags": ["Workitems"],
+        "summary": "Get Workitem",
+        "operationId": "get_workitem_api_workitems__item_id__get",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "Item Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/WorkItem" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Workitems"],
+        "summary": "Update Workitem",
+        "operationId": "update_workitem_api_workitems__item_id__put",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "Item Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/WorkItemUpdate" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/WorkItem" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workitems/{item_id}/status": {
+      "put": {
+        "tags": ["Workitems"],
+        "summary": "Update Workitem Status",
+        "operationId": "update_workitem_status_api_workitems__item_id__status_put",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "Item Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/WorkItemStatusUpdate" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/WorkItem" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/processes": {
+      "get": {
+        "tags": ["Processes"],
+        "summary": "Get Processes",
+        "operationId": "get_processes_api_processes_get",
+        "parameters": [
+          {
+            "name": "include_deleted",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "boolean", "default": false, "title": "Include Deleted" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Process" },
+                  "title": "Response Get Processes Api Processes Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Processes"],
+        "summary": "Create Process",
+        "operationId": "create_process_api_processes_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/ProcessCreate" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Process" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/processes/{process_id}": {
+      "get": {
+        "tags": ["Processes"],
+        "summary": "Get Process",
+        "operationId": "get_process_api_processes__process_id__get",
+        "parameters": [
+          {
+            "name": "process_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Process Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Process" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Processes"],
+        "summary": "Update Process",
+        "operationId": "update_process_api_processes__process_id__put",
+        "parameters": [
+          {
+            "name": "process_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Process Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/ProcessUpdate" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Process" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Processes"],
+        "summary": "Delete Process",
+        "operationId": "delete_process_api_processes__process_id__delete",
+        "parameters": [
+          {
+            "name": "process_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Process Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/credentials": {
+      "get": {
+        "tags": ["Credentials"],
+        "summary": "Get Credentials",
+        "operationId": "get_credentials_api_credentials_get",
+        "parameters": [
+          {
+            "name": "include_deleted",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "boolean", "default": false, "title": "Include Deleted" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Credential" },
+                  "title": "Response Get Credentials Api Credentials Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Credentials"],
+        "summary": "Create Credential",
+        "operationId": "create_credential_api_credentials_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/CredentialCreate" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Credential" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/credentials/{credential_id}": {
+      "get": {
+        "tags": ["Credentials"],
+        "summary": "Get Credential",
+        "operationId": "get_credential_api_credentials__credential_id__get",
+        "parameters": [
+          {
+            "name": "credential_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Credential Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Credential" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Credentials"],
+        "summary": "Update Credential",
+        "operationId": "update_credential_api_credentials__credential_id__put",
+        "parameters": [
+          {
+            "name": "credential_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Credential Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/CredentialUpdate" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Credential" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Credentials"],
+        "summary": "Delete Credential",
+        "operationId": "delete_credential_api_credentials__credential_id__delete",
+        "parameters": [
+          {
+            "name": "credential_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Credential Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Credential" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/resources": {
+      "get": {
+        "tags": ["Resources"],
+        "summary": "Get Resources",
+        "operationId": "get_resources_api_resources_get",
+        "parameters": [
+          {
+            "name": "include_expired",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "boolean", "default": false, "title": "Include Expired" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Resource" },
+                  "title": "Response Get Resources Api Resources Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Resources"],
+        "summary": "Create Resource",
+        "operationId": "create_resource_api_resources_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/ResourceCreate" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Resource" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/resources/{resource_id}": {
+      "get": {
+        "tags": ["Resources"],
+        "summary": "Get Resource",
+        "operationId": "get_resource_api_resources__resource_id__get",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Resource Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Resource" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Resources"],
+        "summary": "Update Resource",
+        "operationId": "update_resource_api_resources__resource_id__put",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Resource Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/ResourceUpdate" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Resource" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sessions": {
+      "get": {
+        "tags": ["Sessions"],
+        "summary": "Get Sessions",
+        "operationId": "get_sessions_api_sessions_get",
+        "parameters": [
+          {
+            "name": "include_deleted",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "boolean", "default": false, "title": "Include Deleted" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Session" },
+                  "title": "Response Get Sessions Api Sessions Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Sessions"],
+        "summary": "Create Session",
+        "operationId": "create_session_api_sessions_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/SessionCreate" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Session" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sessions/{session_id}": {
+      "get": {
+        "tags": ["Sessions"],
+        "summary": "Get Session",
+        "operationId": "get_session_api_sessions__session_id__get",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Session Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Session" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sessions/{session_id}/assign": {
+      "put": {
+        "tags": ["Sessions"],
+        "summary": "Assign Resource",
+        "operationId": "assign_resource_api_sessions__session_id__assign_put",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Session Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SessionResourceUpdate" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Session" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sessions/{session_id}/status": {
+      "put": {
+        "tags": ["Sessions"],
+        "summary": "Update Session Status",
+        "operationId": "update_session_status_api_sessions__session_id__status_put",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Session Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/SessionStatusUpdate" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Session" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sessions/by_resource_id/{resource_id}": {
+      "get": {
+        "tags": ["Sessions"],
+        "summary": "Get Active Sessions By Resource",
+        "operationId": "get_active_sessions_by_resource_api_sessions_by_resource_id__resource_id__get",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Resource Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Session" } }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Credential": {
+        "properties": {
+          "id": { "anyOf": [{ "type": "integer" }, { "type": "null" }], "title": "Id" },
+          "name": { "type": "string", "title": "Name" },
+          "username": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "Username" },
+          "password": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "Password" },
+          "deleted": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Deleted",
+            "default": false
+          },
+          "created_at": { "type": "string", "format": "date-time", "title": "Created At" },
+          "updated_at": { "type": "string", "format": "date-time", "title": "Updated At" }
+        },
+        "type": "object",
+        "required": ["name", "username", "password"],
+        "title": "Credential"
+      },
+      "CredentialCreate": {
+        "properties": {
+          "name": { "type": "string", "title": "Name" },
+          "username": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Username",
+            "default": ""
+          },
+          "password": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Password",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": ["name"],
+        "title": "CredentialCreate"
+      },
+      "CredentialUpdate": {
+        "properties": {
+          "name": { "type": "string", "title": "Name" },
+          "username": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Username",
+            "default": ""
+          },
+          "password": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Password",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": ["name"],
+        "title": "CredentialUpdate"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": { "$ref": "#/components/schemas/ValidationError" },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Process": {
+        "properties": {
+          "id": { "anyOf": [{ "type": "integer" }, { "type": "null" }], "title": "Id" },
+          "name": { "type": "string", "title": "Name" },
+          "description": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Description",
+            "default": ""
+          },
+          "target_type": {
+            "anyOf": [{ "$ref": "#/components/schemas/TargetTypeEnum" }, { "type": "null" }]
+          },
+          "target_source": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Target Source",
+            "default": ""
+          },
+          "target_credentials_id": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Target Credentials Id"
+          },
+          "credentials_id": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Credentials Id"
+          },
+          "workqueue_id": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Workqueue Id"
+          },
+          "deleted": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Deleted",
+            "default": false
+          },
+          "created_at": { "type": "string", "format": "date-time", "title": "Created At" },
+          "updated_at": { "type": "string", "format": "date-time", "title": "Updated At" }
+        },
+        "type": "object",
+        "required": ["name"],
+        "title": "Process"
+      },
+      "ProcessCreate": {
+        "properties": {
+          "name": { "type": "string", "title": "Name" },
+          "description": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Description",
+            "default": ""
+          },
+          "target_type": { "$ref": "#/components/schemas/TargetTypeEnum" },
+          "target_source": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Target Source",
+            "default": ""
+          },
+          "target_credentials_id": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Target Credentials Id"
+          },
+          "credentials_id": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Credentials Id"
+          },
+          "workqueue_id": { "type": "integer", "title": "Workqueue Id" }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "target_type",
+          "target_credentials_id",
+          "credentials_id",
+          "workqueue_id"
+        ],
+        "title": "ProcessCreate"
+      },
+      "ProcessUpdate": {
+        "properties": {
+          "name": { "type": "string", "title": "Name" },
+          "description": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Description",
+            "default": ""
+          },
+          "target_type": { "$ref": "#/components/schemas/TargetTypeEnum" },
+          "target_source": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Target Source",
+            "default": ""
+          },
+          "target_credentials_id": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Target Credentials Id"
+          },
+          "credentials_id": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Credentials Id"
+          },
+          "workqueue_id": { "type": "integer", "title": "Workqueue Id" }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "target_type",
+          "target_credentials_id",
+          "credentials_id",
+          "workqueue_id"
+        ],
+        "title": "ProcessUpdate"
+      },
+      "Resource": {
+        "properties": {
+          "id": { "type": "integer", "title": "Id" },
+          "name": { "type": "string", "title": "Name" },
+          "fqdn": { "type": "string", "title": "Fqdn" },
+          "capabilities": { "type": "string", "title": "Capabilities" },
+          "available": { "type": "boolean", "title": "Available" },
+          "last_seen": {
+            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
+            "title": "Last Seen"
+          },
+          "deleted": { "type": "boolean", "title": "Deleted", "default": false },
+          "created_at": { "type": "string", "format": "date-time", "title": "Created At" },
+          "updated_at": { "type": "string", "format": "date-time", "title": "Updated At" }
+        },
+        "type": "object",
+        "required": ["name", "fqdn", "capabilities", "available", "last_seen"],
+        "title": "Resource"
+      },
+      "ResourceCreate": {
+        "properties": {
+          "name": { "type": "string", "title": "Name" },
+          "fqdn": { "type": "string", "title": "Fqdn" },
+          "capabilities": { "type": "string", "title": "Capabilities" }
+        },
+        "type": "object",
+        "required": ["name", "fqdn", "capabilities"],
+        "title": "ResourceCreate"
+      },
+      "ResourceUpdate": {
+        "properties": {
+          "name": { "type": "string", "title": "Name" },
+          "fqdn": { "type": "string", "title": "Fqdn" },
+          "capabilities": { "type": "string", "title": "Capabilities" }
+        },
+        "type": "object",
+        "required": ["name", "fqdn", "capabilities"],
+        "title": "ResourceUpdate"
+      },
+      "Session": {
+        "properties": {
+          "id": { "type": "integer", "title": "Id" },
+          "process_id": { "type": "integer", "title": "Process Id" },
+          "resource_id": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Resource Id"
+          },
+          "dispatched_at": {
+            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
+            "title": "Dispatched At"
+          },
+          "status": { "$ref": "#/components/schemas/SessionStatus" },
+          "deleted": { "type": "boolean", "title": "Deleted", "default": false },
+          "created_at": { "type": "string", "format": "date-time", "title": "Created At" },
+          "updated_at": { "type": "string", "format": "date-time", "title": "Updated At" }
+        },
+        "type": "object",
+        "required": ["process_id", "resource_id", "dispatched_at", "status"],
+        "title": "Session"
+      },
+      "SessionCreate": {
+        "properties": { "process_id": { "type": "integer", "title": "Process Id" } },
+        "type": "object",
+        "required": ["process_id"],
+        "title": "SessionCreate"
+      },
+      "SessionResourceUpdate": {
+        "properties": {
+          "resource_id": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Resource Id"
+          }
+        },
+        "type": "object",
+        "title": "SessionResourceUpdate"
+      },
+      "SessionStatus": {
+        "type": "string",
+        "enum": ["new", "in progress", "completed", "failed"],
+        "title": "SessionStatus"
+      },
+      "SessionStatusUpdate": {
+        "properties": {
+          "status": {
+            "anyOf": [{ "$ref": "#/components/schemas/SessionStatus" }, { "type": "null" }]
+          }
+        },
+        "type": "object",
+        "title": "SessionStatusUpdate"
+      },
+      "TargetTypeEnum": {
+        "type": "string",
+        "enum": ["python", "blue_prism", "ui_path", "power_automate_desktop"],
+        "title": "TargetTypeEnum"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": { "type": "string", "title": "Message" },
+          "type": { "type": "string", "title": "Error Type" }
+        },
+        "type": "object",
+        "required": ["loc", "msg", "type"],
+        "title": "ValidationError"
+      },
+      "WorkItem": {
+        "properties": {
+          "id": { "anyOf": [{ "type": "integer" }, { "type": "null" }], "title": "Id" },
+          "data": { "type": "string", "title": "Data" },
+          "description": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Description",
+            "default": ""
+          },
+          "locked": { "type": "boolean", "title": "Locked" },
+          "status": { "$ref": "#/components/schemas/WorkItemStatus" },
+          "message": { "type": "string", "title": "Message", "default": "" },
+          "workqueue_id": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Workqueue Id"
+          },
+          "created_at": { "type": "string", "format": "date-time", "title": "Created At" },
+          "updated_at": { "type": "string", "format": "date-time", "title": "Updated At" }
+        },
+        "type": "object",
+        "required": ["data", "locked", "status"],
+        "title": "WorkItem"
+      },
+      "WorkItemCreate": {
+        "properties": {
+          "data": { "type": "string", "title": "Data" },
+          "description": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Description",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": ["data"],
+        "title": "WorkItemCreate"
+      },
+      "WorkItemStatus": {
+        "type": "string",
+        "enum": ["new", "in progress", "completed", "failed", "abandoned", "pending user action"],
+        "title": "WorkItemStatus"
+      },
+      "WorkItemStatusUpdate": {
+        "properties": { "status": { "$ref": "#/components/schemas/WorkItemStatus" } },
+        "type": "object",
+        "required": ["status"],
+        "title": "WorkItemStatusUpdate"
+      },
+      "WorkItemUpdate": {
+        "properties": {
+          "data": { "type": "string", "title": "Data" },
+          "description": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Description",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": ["data"],
+        "title": "WorkItemUpdate"
+      },
+      "Workqueue": {
+        "properties": {
+          "id": { "anyOf": [{ "type": "integer" }, { "type": "null" }], "title": "Id" },
+          "name": { "type": "string", "minLength": 1, "title": "Name" },
+          "description": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Description"
+          },
+          "enabled": { "type": "boolean", "title": "Enabled", "default": true },
+          "deleted": { "type": "boolean", "title": "Deleted", "default": false },
+          "created_at": { "type": "string", "format": "date-time", "title": "Created At" },
+          "updated_at": { "type": "string", "format": "date-time", "title": "Updated At" }
+        },
+        "type": "object",
+        "required": ["name", "description"],
+        "title": "Workqueue"
+      },
+      "WorkqueueUpdate": {
+        "properties": {
+          "name": { "type": "string", "minLength": 1, "title": "Name" },
+          "description": { "type": "string", "title": "Description" },
+          "enabled": { "type": "boolean", "title": "Enabled" }
+        },
+        "type": "object",
+        "required": ["name", "description", "enabled"],
+        "title": "WorkqueueUpdate"
+      }
+    }
+  }
+}
