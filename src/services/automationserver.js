@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = '/api' // Adjust this if your API endpoint differs
+const BASE_URL = import.meta.env.ATS_API_BASE_URL || '/api' // Default to '/api' if not set
 
 // Set default headers for Axios
 axios.defaults.headers.common['Authorization'] = `Bearer yourBearerToken` // Replace 'yourBearerToken' with your actual token
