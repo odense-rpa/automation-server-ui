@@ -49,12 +49,23 @@ const routes = [
     path: '/credentials',
     name: 'Credentials',
     component: () => import('../views/CredentialsView.vue')
-  },/*
+  },
   {
     path: '/administration',
-    name: 'Administration',
-    component: () => import('../components/Administration.vue')
-  }*/
+    name: 'Administration.container',
+    children: [
+      {
+        path: '',
+        name: 'administration',
+        component: () => import('../views/AdministrationView.vue')
+      },
+      {
+        path: 'tokens/create',
+        name: 'token.create',
+        component: () => import('../views/CreateTokenView.vue')
+      }
+    ]
+  },
   {
     path: '/sessions',
     name: 'sessions.container',

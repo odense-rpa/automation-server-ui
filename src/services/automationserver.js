@@ -77,7 +77,9 @@ const workqueuesAPI = {
   },
   getWorkqueuesWithInformation: async (include_deleted = false) => {
     try {
-      const response = await axios.get(`${BASE_URL}/workqueues/information`, { params: { include_deleted } })
+      const response = await axios.get(`${BASE_URL}/workqueues/information`, {
+        params: { include_deleted }
+      })
       return response.data
     } catch (error) {
       throw new Error(`Error fetching workqueues: ${error}`)
@@ -140,8 +142,7 @@ const workqueuesAPI = {
     } catch (error) {
       throw new Error(`Error fetching sessions: ${error}`)
     }
-  },
-
+  }
 }
 
 // Credentials API
@@ -357,7 +358,35 @@ const workitemsApi = {
       throw new Error(`Error updating workitem status: ${error}`)
     }
   }
+}
 
+const accessTokensApi = {
+  getAccessTokens: async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/accesstokens`)
+      return response.data
+    } catch (error) {
+      throw new Error(`Error fetching access tokens: ${error}`)
+    }
+  },
+
+  getAccessToken: async (token) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/accesstokens/${token}`)
+      return response.data
+    } catch (error) {
+      throw new Error(`Error reading access token: ${error}`)
+    }
+  },
+
+  createAccessToken: async (identifier) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/accesstokens`, { identifier })
+      return response.data
+    } catch (error) {
+      throw new Error(`Error creating access token: ${error}`)
+    }
+  }
 }
 
 // Export APIs for use in Vue components or elsewhere
@@ -369,5 +398,6 @@ export {
   sessionsAPI,
   sessionLogsAPI,
   triggersAPI,
-  workitemsApi
+  workitemsApi,
+  accessTokensApi
 }
