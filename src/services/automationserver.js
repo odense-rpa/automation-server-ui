@@ -1,14 +1,15 @@
 import axios from 'axios'
 
-const BASE_URL = import.meta.env.ATS_API_BASE_URL || '/api' // Default to '/api' if not set
+const BASE_URL = import.meta.env.VITE_ATS_API_BASE_URL || '/api' // Default to '/api' if not set
 
 // Set default headers for Axios
-axios.defaults.headers.common['Authorization'] = `Bearer yourBearerToken` // Replace 'yourBearerToken' with your actual token
+axios.defaults.headers.common['Authorization'] = `Bearer ` + import.meta.env.VITE_ATS_API_TOKEN  // Replace 'yourBearerToken' with your actual token
 
 // Processes API
 const processesAPI = {
   getProcesses: async (include_deleted = false) => {
     try {
+      console.log(axios.defaults.headers);
       const response = await axios.get(`${BASE_URL}/processes/`, { params: { include_deleted } })
       return response.data
     } catch (error) {
