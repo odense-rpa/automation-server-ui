@@ -1,6 +1,6 @@
 <template>
     <div>
-        <tokens-table :tokens="tokens" />
+        <tokens-table :tokens="tokens" @refresh="fetchTokens" />
     </div>
     <div class="mt-4">
         <router-link :to="{ name: 'settings' }" class="btn btn-primary">Configure the frontend</router-link>
@@ -23,7 +23,6 @@ export default {
     },
     async created() {
         this.fetchTokens();
-        console.log('Tokens fetched');
     },
     methods: {
         // Define the methods here

@@ -393,6 +393,14 @@ const accessTokensApi = {
     } catch (error) {
       throw new Error(`Error creating access token: ${error}`)
     }
+  },
+  deleteAccessToken: async (token) => {
+    try {
+      const response = await axios.delete(`/accesstokens/${token}`)
+      return response.data
+    } catch (error) {
+      throw new Error(`Error deleting access token: ${error}`)
+    }
   }
 }
 
