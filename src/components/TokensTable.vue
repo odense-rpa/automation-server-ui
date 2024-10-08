@@ -2,7 +2,7 @@
     <content-card title="Tokens">
         <template v-slot:header-right>
             <div class="input-group">
-                <!--<router-link :to="{ name: 'token.create' }" class="btn btn-success">+</router-link>-->
+                <router-link :to="{ name: 'token.create' }" class="btn btn-success">+</router-link>
             </div>
         </template>
         <table class="table table-striped table-hover mb-0 rounded-bottom">
