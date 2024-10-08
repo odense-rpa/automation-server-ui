@@ -63,7 +63,12 @@ const routes = [
         path: 'tokens/create',
         name: 'token.create',
         component: () => import('../views/CreateTokenView.vue')
-      }
+      },
+      {
+        path: 'settings',
+        name: 'settings',
+        component: () => import('../views/SettingsView.vue')
+      },
     ]
   },
   {

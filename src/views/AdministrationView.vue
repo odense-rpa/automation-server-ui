@@ -2,6 +2,9 @@
     <div>
         <tokens-table :tokens="tokens" />
     </div>
+    <div class="mt-4">
+        <router-link :to="{ name: 'settings' }" class="btn btn-primary">Configure the frontend</router-link>
+    </div>
 </template>
 <script>
 import TokensTable from '@/components/TokensTable.vue';

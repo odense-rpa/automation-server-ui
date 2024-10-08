@@ -1,15 +1,22 @@
 import axios from 'axios'
+import { useSettingsStore } from '@/stores/settingsStore'
 
-const BASE_URL = import.meta.env.ATS_API_BASE_URL || '/api' // Default to '/api' if not set
+axios.interceptors.request.use((config) => {
+  var settingsStore = useSettingsStore()
 
-// Set default headers for Axios
-axios.defaults.headers.common['Authorization'] = `Bearer yourBearerToken` // Replace 'yourBearerToken' with your actual token
+  config.baseURL = settingsStore.apiUrl;
+  if(settingsStore.token) {
+    config.headers.Authorization = `Bearer ${settingsStore.token}`
+  }
+
+  return config
+})
 
 // Processes API
 const processesAPI = {
   getProcesses: async (include_deleted = false) => {
     try {
-      const response = await axios.get(`${BASE_URL}/processes/`, { params: { include_deleted } })
+      const response = await axios.get(`/processes/`, { params: { include_deleted } })
       return response.data
     } catch (error) {
       throw new Error(`Error fetching processes: ${error}`)
@@ -17,7 +24,7 @@ const processesAPI = {
   },
   createProcess: async (processData) => {
     try {
-      const response = await axios.post(`${BASE_URL}/processes/`, processData)
+      const response = await axios.post(`/processes/`, processData)
       return response.data
     } catch (error) {
       throw new Error(`Error creating process: ${error}`)
@@ -25,7 +32,7 @@ const processesAPI = {
   },
   getProcess: async (process_id) => {
     try {
-      const response = await axios.get(`${BASE_URL}/processes/${process_id}`)
+      const response = await axios.get(`/processes/${process_id}`)
       return response.data
     } catch (error) {
       throw new Error(`Error reading process: ${error}`)
@@ -33,7 +40,7 @@ const processesAPI = {
   },
   updateProcess: async (process_id, processData) => {
     try {
-      const response = await axios.put(`${BASE_URL}/processes/${process_id}`, processData)
+      const response = await axios.put(`/processes/${process_id}`, processData)
       return response.data
     } catch (error) {
       throw new Error(`Error updating process: ${error}`)
@@ -41,7 +48,7 @@ const processesAPI = {
   },
   deleteProcess: async (process_id) => {
     try {
-      const response = await axios.delete(`${BASE_URL}/processes/${process_id}`)
+      const response = await axios.delete(`/processes/${process_id}`)
       return response.data
     } catch (error) {
       throw new Error(`Error deleting process: ${error}`)
@@ -49,7 +56,7 @@ const processesAPI = {
   },
   getTriggers: async (process_id) => {
     try {
-      const response = await axios.get(`${BASE_URL}/processes/${process_id}/trigger`)
+      const response = await axios.get(`/processes/${process_id}/trigger`)
       return response.data
     } catch (error) {
       throw new Error(`Error fetching triggers: ${error}`)
@@ -57,7 +64,7 @@ const processesAPI = {
   },
   createTrigger: async (process_id, triggerData) => {
     try {
-      const response = await axios.post(`${BASE_URL}/processes/${process_id}/trigger`, triggerData)
+      const response = await axios.post(`/processes/${process_id}/trigger`, triggerData)
       return response.data
     } catch (error) {
       throw new Error(`Error creating trigger: ${error}`)
@@ -69,7 +76,7 @@ const processesAPI = {
 const workqueuesAPI = {
   getWorkqueues: async (include_deleted = false) => {
     try {
-      const response = await axios.get(`${BASE_URL}/workqueues/`, { params: { include_deleted } })
+      const response = await axios.get(`/workqueues/`, { params: { include_deleted } })
       return response.data
     } catch (error) {
       throw new Error(`Error fetching workqueues: ${error}`)
@@ -77,7 +84,7 @@ const workqueuesAPI = {
   },
   getWorkqueuesWithInformation: async (include_deleted = false) => {
     try {
-      const response = await axios.get(`${BASE_URL}/workqueues/information`, {
+      const response = await axios.get(`/workqueues/information`, {
         params: { include_deleted }
       })
       return response.data
@@ -87,7 +94,7 @@ const workqueuesAPI = {
   },
   createWorkqueue: async (workqueueData) => {
     try {
-      const response = await axios.post(`${BASE_URL}/workqueues/`, workqueueData)
+      const response = await axios.post(`/workqueues/`, workqueueData)
       return response.data
     } catch (error) {
       throw new Error(`Error creating workqueue: ${error}`)
@@ -95,7 +102,7 @@ const workqueuesAPI = {
   },
   getWorkqueue: async (queue_id) => {
     try {
-      const response = await axios.get(`${BASE_URL}/workqueues/${queue_id}`)
+      const response = await axios.get(`/workqueues/${queue_id}`)
       return response.data
     } catch (error) {
       throw new Error(`Error reading workqueue: ${error}`)
@@ -103,7 +110,7 @@ const workqueuesAPI = {
   },
   updateWorkqueue: async (queue_id, workqueueData) => {
     try {
-      const response = await axios.put(`${BASE_URL}/workqueues/${queue_id}`, workqueueData)
+      const response = await axios.put(`/workqueues/${queue_id}`, workqueueData)
       return response.data
     } catch (error) {
       throw new Error(`Error updating workqueue: ${error}`)
@@ -111,7 +118,7 @@ const workqueuesAPI = {
   },
   deleteWorkqueue: async (queue_id) => {
     try {
-      const response = await axios.delete(`${BASE_URL}/workqueues/${queue_id}`)
+      const response = await axios.delete(`/workqueues/${queue_id}`)
       return response.data
     } catch (error) {
       throw new Error(`Error deleting workqueue: ${error}`)
@@ -119,7 +126,7 @@ const workqueuesAPI = {
   },
   addWorkitem: async (queue_id, workitemData) => {
     try {
-      const response = await axios.post(`${BASE_URL}/workqueues/${queue_id}/add`, workitemData)
+      const response = await axios.post(`/workqueues/${queue_id}/add`, workitemData)
       return response.data
     } catch (error) {
       throw new Error(`Error adding workitem: ${error}`)
@@ -127,7 +134,7 @@ const workqueuesAPI = {
   },
   getNextWorkitem: async (queue_id) => {
     try {
-      const response = await axios.get(`${BASE_URL}/workqueues/${queue_id}/next_item`)
+      const response = await axios.get(`/workqueues/${queue_id}/next_item`)
       return response.data
     } catch (error) {
       throw new Error(`Error fetching next workitem: ${error}`)
@@ -135,7 +142,7 @@ const workqueuesAPI = {
   },
   getWorkItems: async (workqueue_id, page = 1, size = 20, search = '') => {
     try {
-      const response = await axios.get(`${BASE_URL}/workqueues/${workqueue_id}/items`, {
+      const response = await axios.get(`/workqueues/${workqueue_id}/items`, {
         params: { page: page, size: size, search: search }
       })
       return response.data
@@ -149,7 +156,7 @@ const workqueuesAPI = {
 const credentialsAPI = {
   getCredentials: async (include_deleted = false) => {
     try {
-      const response = await axios.get(`${BASE_URL}/credentials/`, { params: { include_deleted } })
+      const response = await axios.get(`/credentials/`, { params: { include_deleted } })
       return response.data
     } catch (error) {
       throw new Error(`Error fetching credentials: ${error}`)
@@ -157,7 +164,7 @@ const credentialsAPI = {
   },
   createCredential: async (credentialData) => {
     try {
-      const response = await axios.post(`${BASE_URL}/credentials/`, credentialData)
+      const response = await axios.post(`/credentials/`, credentialData)
       return response.data
     } catch (error) {
       throw new Error(`Error creating credential: ${error}`)
@@ -165,7 +172,7 @@ const credentialsAPI = {
   },
   readCredential: async (credential_id) => {
     try {
-      const response = await axios.get(`${BASE_URL}/credentials/${credential_id}`)
+      const response = await axios.get(`/credentials/${credential_id}`)
       return response.data
     } catch (error) {
       throw new Error(`Error reading credential: ${error}`)
@@ -173,7 +180,7 @@ const credentialsAPI = {
   },
   updateCredential: async (credential_id, credentialData) => {
     try {
-      const response = await axios.put(`${BASE_URL}/credentials/${credential_id}`, credentialData)
+      const response = await axios.put(`/credentials/${credential_id}`, credentialData)
       return response.data
     } catch (error) {
       throw new Error(`Error updating credential: ${error}`)
@@ -181,7 +188,7 @@ const credentialsAPI = {
   },
   deleteCredential: async (credential_id) => {
     try {
-      const response = await axios.delete(`${BASE_URL}/credentials/${credential_id}`)
+      const response = await axios.delete(`/credentials/${credential_id}`)
       return response.data
     } catch (error) {
       throw new Error(`Error deleting credential: ${error}`)
@@ -192,7 +199,7 @@ const credentialsAPI = {
 const resourcesAPI = {
   getResources: async (include_expired = false) => {
     try {
-      const response = await axios.get(`${BASE_URL}/resources/`, { params: { include_expired } })
+      const response = await axios.get(`/resources/`, { params: { include_expired } })
       return response.data
     } catch (error) {
       throw new Error(`Error fetching resources: ${error}`)
@@ -200,7 +207,7 @@ const resourcesAPI = {
   },
   createResource: async (resourceData) => {
     try {
-      const response = await axios.post(`${BASE_URL}/resources/`, resourceData)
+      const response = await axios.post(`/resources/`, resourceData)
       return response.data
     } catch (error) {
       throw new Error(`Error creating resource: ${error}`)
@@ -208,7 +215,7 @@ const resourcesAPI = {
   },
   getResource: async (resource_id) => {
     try {
-      const response = await axios.get(`${BASE_URL}/resources/${resource_id}`)
+      const response = await axios.get(`/resources/${resource_id}`)
       return response.data
     } catch (error) {
       throw new Error(`Error reading resource: ${error}`)
@@ -216,7 +223,7 @@ const resourcesAPI = {
   },
   updateResource: async (resource_id, resourceData) => {
     try {
-      const response = await axios.put(`${BASE_URL}/resources/${resource_id}`, resourceData)
+      const response = await axios.put(`/resources/${resource_id}`, resourceData)
       return response.data
     } catch (error) {
       throw new Error(`Error updating resource: ${error}`)
@@ -227,7 +234,7 @@ const resourcesAPI = {
 const sessionsAPI = {
   getSessions: async (include_deleted = false, page = 1, size = 20, search = '') => {
     try {
-      const response = await axios.get(`${BASE_URL}/sessions/`, {
+      const response = await axios.get(`/sessions/`, {
         params: { page: page, size: size, search: search, include_deleted: include_deleted }
       })
       return response.data
@@ -237,7 +244,7 @@ const sessionsAPI = {
   },
   getSession: async (session_id) => {
     try {
-      const response = await axios.get(`${BASE_URL}/sessions/${session_id}`)
+      const response = await axios.get(`/sessions/${session_id}`)
       return response.data
     } catch (error) {
       throw new Error(`Error reading session: ${error}`)
@@ -245,7 +252,7 @@ const sessionsAPI = {
   },
   createSession: async (process_id) => {
     try {
-      const response = await axios.post(`${BASE_URL}/sessions/`, { process_id: process_id })
+      const response = await axios.post(`/sessions/`, { process_id: process_id })
       return response.data
     } catch (error) {
       throw new Error(`Error creating session: ${error}`)
@@ -253,7 +260,7 @@ const sessionsAPI = {
   },
   updateStatus: async (session_id, status) => {
     try {
-      const response = await axios.put(`${BASE_URL}/sessions/${session_id}/status`, { status })
+      const response = await axios.put(`/sessions/${session_id}/status`, { status })
       return response.data
     } catch (error) {
       throw new Error(`Error updating session status: ${error}`)
@@ -261,7 +268,7 @@ const sessionsAPI = {
   },
   getByResourceId: async (resource_id) => {
     try {
-      const response = await axios.get(`${BASE_URL}/sessions/by_resource_id/${resource_id}`)
+      const response = await axios.get(`/sessions/by_resource_id/${resource_id}`)
       return response.data
     } catch (error) {
       throw new Error(`Error fetching sessions by resource: ${error}`)
@@ -269,7 +276,7 @@ const sessionsAPI = {
   },
   getNewSessions: async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/sessions/new`)
+      const response = await axios.get(`/sessions/new`)
       return response.data
     } catch (error) {
       throw new Error(`Error fetching new sessions: ${error}`)
@@ -280,7 +287,7 @@ const sessionsAPI = {
 const triggersAPI = {
   getTriggers: async (include_deleted = false) => {
     try {
-      const response = await axios.get(`${BASE_URL}/triggers/`, { params: { include_deleted } })
+      const response = await axios.get(`/triggers/`, { params: { include_deleted } })
       return response.data
     } catch (error) {
       throw new Error(`Error fetching triggers: ${error}`)
@@ -288,7 +295,7 @@ const triggersAPI = {
   },
   /*  getTrigger: async (trigger_id) => {
     try {
-      const response = await axios.get(`${BASE_URL}/triggers/${trigger_id}`)
+      const response = await axios.get(`/triggers/${trigger_id}`)
       return response.data
     } catch (error) {
       throw new Error(`Error reading trigger: ${error}`)
@@ -296,7 +303,7 @@ const triggersAPI = {
   },*/
   updateTrigger: async (trigger_id, triggerData) => {
     try {
-      const response = await axios.put(`${BASE_URL}/triggers/${trigger_id}`, triggerData)
+      const response = await axios.put(`/triggers/${trigger_id}`, triggerData)
       return response.data
     } catch (error) {
       throw new Error(`Error updating trigger: ${error}`)
@@ -304,7 +311,7 @@ const triggersAPI = {
   },
   deleteTrigger: async (trigger_id) => {
     try {
-      const response = await axios.delete(`${BASE_URL}/triggers/${trigger_id}`)
+      const response = await axios.delete(`/triggers/${trigger_id}`)
       return response.data
     } catch (error) {
       throw new Error(`Error deleting trigger: ${error}`)
@@ -315,7 +322,7 @@ const triggersAPI = {
 const sessionLogsAPI = {
   getSessionLogs: async (session_id, page = 1, size = 20, search = '') => {
     try {
-      const response = await axios.get(`${BASE_URL}/sessionlogs/${session_id}`, {
+      const response = await axios.get(`/sessionlogs/${session_id}`, {
         params: { page: page, size: size, search: search }
       })
       return response.data
@@ -325,7 +332,7 @@ const sessionLogsAPI = {
   },
   getByWorkItemId: async (workitem_id) => {
     try {
-      const response = await axios.get(`${BASE_URL}/sessionlogs/by_workitem/${workitem_id}`)
+      const response = await axios.get(`/sessionlogs/by_workitem/${workitem_id}`)
       return response.data
     } catch (error) {
       throw new Error(`Error fetching session logs by workitem: ${error}`)
@@ -336,7 +343,7 @@ const sessionLogsAPI = {
 const workitemsApi = {
   getWorkItem: async (workitem_id) => {
     try {
-      const response = await axios.get(`${BASE_URL}/workitems/${workitem_id}`)
+      const response = await axios.get(`/workitems/${workitem_id}`)
       return response.data
     } catch (error) {
       throw new Error(`Error reading workitem: ${error}`)
@@ -344,7 +351,7 @@ const workitemsApi = {
   },
   updateWorkItem: async (workitem_id, workitemData) => {
     try {
-      const response = await axios.put(`${BASE_URL}/workitems/${workitem_id}`, workitemData)
+      const response = await axios.put(`/workitems/${workitem_id}`, workitemData)
       return response.data
     } catch (error) {
       throw new Error(`Error updating workitem: ${error}`)
@@ -352,7 +359,7 @@ const workitemsApi = {
   },
   updateWorkItemStatus: async (workitem_id, status) => {
     try {
-      const response = await axios.put(`${BASE_URL}/workitems/${workitem_id}/status`, { status })
+      const response = await axios.put(`/workitems/${workitem_id}/status`, { status })
       return response.data
     } catch (error) {
       throw new Error(`Error updating workitem status: ${error}`)
@@ -363,7 +370,7 @@ const workitemsApi = {
 const accessTokensApi = {
   getAccessTokens: async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/accesstokens`)
+      const response = await axios.get(`/accesstokens`)
       return response.data
     } catch (error) {
       throw new Error(`Error fetching access tokens: ${error}`)
@@ -372,7 +379,7 @@ const accessTokensApi = {
 
   getAccessToken: async (token) => {
     try {
-      const response = await axios.get(`${BASE_URL}/accesstokens/${token}`)
+      const response = await axios.get(`/accesstokens/${token}`)
       return response.data
     } catch (error) {
       throw new Error(`Error reading access token: ${error}`)
@@ -381,7 +388,7 @@ const accessTokensApi = {
 
   createAccessToken: async (identifier) => {
     try {
-      const response = await axios.post(`${BASE_URL}/accesstokens`, { identifier })
+      const response = await axios.post(`/accesstokens`, { identifier })
       return response.data
     } catch (error) {
       throw new Error(`Error creating access token: ${error}`)
