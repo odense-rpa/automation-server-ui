@@ -4,7 +4,7 @@
       <div class="col-sm-7">
         <content-card title="Create workqueue">
           <div class="card-body">
-            <workqueue-form :workqueue="workqueue" @save="saveWorkqueue" />
+            <workqueue-form :workqueue="workqueue" @save="saveWorkqueue" @cancel="cancel" start-editable="true" />
           </div>
         </content-card>
       </div>
@@ -50,6 +50,9 @@ export default {
         alertStore.addAlert({ type: 'danger', message: error })
       }
       // Redirect to the overview
+      this.$router.push({ name: 'workqueues' })
+    },
+    cancel() {
       this.$router.push({ name: 'workqueues' })
     }
   }

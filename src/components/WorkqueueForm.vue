@@ -1,28 +1,5 @@
 <template>
-  <content-card :title="!isEditing ? 'Workqueue': 'Edit workqueue'">
-    <template v-slot:header-right>
-      <button @click="isEditing = true" class="btn btn-primary btn-sm" v-if="!isEditing"><i class="bi bi-pencil"></i></button>
-    </template>
-    <div class="card-body">
-      <div class="row" v-if="!isEditing">
-        <div class="col-6">
-          <dl class="row">
-            <dt class="col-5">Name:</dt>
-            <dd class="col-7">{{ editedWorkqueue.name }}</dd>
-            <dt class="col-5">Description:</dt>
-            <dd class="col-7">{{ editedWorkqueue.description }}</dd>
-          </dl>
-        </div>
-        <div class="col-6">
-          <dl class="row">
-            <dt class="col-5">Enabled:</dt>
-            <dd class="col-7">{{ editedWorkqueue.enabled ? 'Yes' : 'No' }}</dd>
-            <dt class="col-5">Last changed:</dt>
-            <dd class="col-7">{{ $formatDateTime(editedWorkqueue.updated_at) }}</dd>
-          </dl>
-        </div>
-      </div>
-      <form @submit.prevent="saveWorkqueue" v-else>
+      <form @submit.prevent="saveWorkqueue">
         <div class="row mb-3">
           <label class="col-sm-2" for="name">Name:</label>
           <div class="col">
@@ -50,17 +27,12 @@
           <button @click="cancelEdit" class="btn">Cancel</button>
         </div>
       </form>
-    </div>
-  </content-card>
 </template>
 
 <script>
-import ContentCard from '@/components/ContentCard.vue'
-
 export default {
   name: 'WorkqueueForm',
   components: {
-    ContentCard
   },
   props: {
     workqueue: {
@@ -71,17 +43,15 @@ export default {
   data() {
     return {
       editedWorkqueue: { ...this.workqueue },
-      isEditing: false
     }
   },
   methods: {
     saveWorkqueue() {
       this.$emit('save', this.editedWorkqueue)
-      this.isEditing = false
     },
     cancelEdit() {
+      this.$emit('cancel', this.editedWorkqueue)
       this.editedWorkqueue = { ...this.workqueue }
-      this.isEditing = false
     }
   },
   watch: {

@@ -47,7 +47,7 @@ export default {
 
         alertStore.addAlert({
           type: 'success',
-          message: "'" + this.process.name + "' was created"
+          message: "'" + process.name + "' was created"
         })
       } catch (error) {
         console.log(error)

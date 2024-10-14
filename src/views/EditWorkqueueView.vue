@@ -1,10 +1,16 @@
 <template>
   <div>
-    <div class="row mb-3">
-      <div class="col-sm-12">
-        <workqueue-form :workqueue="workqueue" @save="saveWorkqueue" v-if="workqueue" />
+    <content-card :title="!isEditing ? 'Workqueue' : 'Edit workqueue'">
+      <template v-slot:header-right>
+        <button @click="isEditing = true" class="btn btn-primary btn-sm" v-if="!isEditing"><i
+            class="bi bi-pencil"></i></button>
+      </template>
+      <div class="card-body">
+        <workqueue-info :workqueue="workqueue" v-if="workqueue && !isEditing" />
+        <workqueue-form :workqueue="workqueue" @save="saveWorkqueue" @cancel="cancelEdit" v-if="workqueue && isEditing" />
       </div>
-    </div>
+    </content-card>
+    <hr />
     <workitems-table :workqueue-id="workqueue.id" :size="50" v-if="workqueue" />
   </div>
 </template>
@@ -15,16 +21,18 @@ import { workqueuesAPI } from '@/services/automationserver.js'
 import ContentCard from '@/components/ContentCard.vue'
 import WorkqueueForm from '@/components/WorkqueueForm.vue'
 import WorkitemsTable from '@/components/WorkitemsTable.vue'
-
+import WorkqueueInfo from '@/components/WorkqueueInfo.vue'
 const alertStore = useAlertStore()
 
 export default {
   name: 'WorkqueueView',
   data: () => ({
-    workqueue: null
+    workqueue: null,
+    isEditing: false
   }),
   components: {
     ContentCard,
+    WorkqueueInfo,
     WorkqueueForm,
     WorkitemsTable
   },
@@ -39,7 +47,7 @@ export default {
   methods: {
     async saveWorkqueue(workqueue) {
       try {
-        await workqueuesAPI.updateWorkqueue(this.workqueue.id, workqueue)
+        this.workqueue = await workqueuesAPI.updateWorkqueue(this.workqueue.id, workqueue)
         alertStore.addAlert({
           type: 'success',
           message: "'" + this.workqueue.name + "' was saved"
@@ -48,7 +56,10 @@ export default {
         alertStore.addAlert({ type: 'danger', message: error })
       }
       // Redirect to the overview
-      this.$router.push({ name: 'workqueues' })
+      this.isEditing = false
+    },
+    async cancelEdit() {
+      this.isEditing = false
     }
   }
 }
